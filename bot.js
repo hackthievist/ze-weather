@@ -66,7 +66,7 @@ var states = [
 var tweetWeather = () => {
     var rand = Math.floor(Math.random() * 36);
     var nigerianState = states[rand];
-    var encodedAddress = encodeURIComponent(nigerianState + ', Nigeria');
+    var encodedAddress = encodeURIComponent(`${nigerianState}, Nigeria`);
     var geocode = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`;
     axios.get(geocode).then((response) => {
         if (response.data.status === 'ZERO_RESULTS') {
@@ -81,19 +81,42 @@ var tweetWeather = () => {
     }).then((response) => {
         var fahrTemp = response.data.currently.temperature;
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
+        var message;
+
+        // if (response.data.currently.precipType === 'rain') {
+        //     message = rain[0];
+        // } else if (response.data.currently.precipType === 'cloudy') {
+        //     message = cloudy[0];
+        // } else {
+        //     message = '';
+        // }
         var summary = response.data.currently.summary;
-        if (response.data.currently.precipType) {
-            if (response.data.currently.precipType === 'rain') {
-                message = rain[0];
-            } else if (response.data.currently.precipType === 'cloudy') {
-                message = cloudy[0];
-            } else {
-                message = '';
-            }
+        if (summary === 'Light Rain') {
+            summary = 'It is just a little rain, nothing serious'
+        } else if (summary === 'Drizzle') {
+            summary = 'It is just a little drizzle fo shizzle my nizzle';
+        } else if (summary === 'Mostly Cloudy') {
+            summary = "It's a lot of clouds in the sky";
+        } else if (summary === 'Partly Cloudy') {
+            summary = "Cloudy with a chance of meatballs";
+        } else if (summary === 'Humid and Overcast') {
+            summary = "It is humid (lol, humid)";
+        } else if (summary === 'Clear') {
+            summary = 'Clear af';
+        } else if (summary === 'Overcast') {
+            summary = "It's quite dull";
+        } else if (summary === 'Humid and Mostly Cloudy') {
+            summary = "Get your umbrellas, it's about to get wet";
+        } else if (summary === 'Humid and Partly Cloudy') {
+            summary = "Get ready for a bit of rain";
         }
-        Twitter.post('statuses/update', {
-            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
-        }, (err, data, response) => {});
+
+        console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`);
+
+        // Twitter.post('statuses/update', {
+        //     status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
+        // }, (err, data, response) => {});
+
     }).catch((e) => {});
 }
 
