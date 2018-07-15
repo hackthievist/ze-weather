@@ -85,4 +85,4 @@ var tweetWeather = () => {
 }
 
 tweetWeather();
-setInterval(tweetWeather, 14400000);
+setInterval(tweetWeather, 10000);
