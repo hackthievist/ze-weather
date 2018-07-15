@@ -81,7 +81,6 @@ var tweetWeather = () => {
     }).then((response) => {
         var fahrTemp = response.data.currently.temperature;
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
-        var message;
 
         var summary = response.data.currently.summary;
         if (summary === 'Light Rain') {
@@ -107,7 +106,7 @@ var tweetWeather = () => {
         console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`);
 
         Twitter.post('statuses/update', {
-            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
+            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}`
         }, (err, data, response) => {});
 
     }).catch((e) => {});
