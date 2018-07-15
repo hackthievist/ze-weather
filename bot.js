@@ -56,7 +56,6 @@ var tweetWeather = () => {
         if (response.data.status === 'ZERO_RESULTS') {
             throw new Error('Cannot fetch address');
         }
-        console.log(response.data.results[0].formatted_address);
 
         var longitude = response.data.results[0].geometry.location.lng;
         var latitude = response.data.results[0].geometry.location.lat;
@@ -68,13 +67,8 @@ var tweetWeather = () => {
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
         Twitter.post('statuses/update', {
             status: `It is currently ${celsiusTemp}°C in ${nigerianState} State`
-        }, (err, data, response) => {
-            //console.log(response);
-        });
-        console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State`);
-    }).catch((e) => {
-        console.log(e.message);
-    });
+        }, (err, data, response) => {});
+    }).catch((e) => {});
 }
 
 tweetWeather();
