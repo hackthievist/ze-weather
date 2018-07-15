@@ -18,6 +18,9 @@ app.get('/', function (request, response) {
 
 var Twitter = new twit(config);
 
+var rain = ["It's currently raining"];
+var cloudy = ["It's currently cloudy"];
+
 var states = [
     "Abia",
     "Adamawa",
@@ -78,11 +81,19 @@ var tweetWeather = () => {
     }).then((response) => {
         var fahrTemp = response.data.currently.temperature;
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
+        var summary = response.data.currently.summary;
+        if (response.data.currently.precipType) {
+            if (response.data.currently.precipType === 'rain') {
+                message = rain[0];
+            } else if (response.data.currently.precipType === 'cloudy') {
+                message = cloudy[0];
+            }
+        }
         Twitter.post('statuses/update', {
-            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State`
+            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
         }, (err, data, response) => {});
     }).catch((e) => {});
 }
 
-tweetWeather();
-setInterval(tweetWeather, 14400000);
+tweetWeather(); //14400000
+setInterval(tweetWeather, 4000);
