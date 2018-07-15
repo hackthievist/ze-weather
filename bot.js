@@ -77,5 +77,5 @@ var tweetWeather = () => {
     });
 }
 
-tweetWeather(); //14400000
-setInterval(tweetWeather, 2000);
+tweetWeather();
+setInterval(tweetWeather, 14400000);
