@@ -87,6 +87,8 @@ var tweetWeather = () => {
                 message = rain[0];
             } else if (response.data.currently.precipType === 'cloudy') {
                 message = cloudy[0];
+            } else {
+                message = '';
             }
         }
         Twitter.post('statuses/update', {
