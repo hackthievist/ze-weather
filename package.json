@@ -1,0 +1,15 @@
+{
+  "name": "tchisel",
+  "version": "1.0.0",
+  "description": "Bot to tweet random stuff",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sobogun Ifeoluwa <sobogunifeoluwa@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "twit": "^2.2.11"
+  }
+}
