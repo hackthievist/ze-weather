@@ -83,13 +83,6 @@ var tweetWeather = () => {
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
         var message;
 
-        // if (response.data.currently.precipType === 'rain') {
-        //     message = rain[0];
-        // } else if (response.data.currently.precipType === 'cloudy') {
-        //     message = cloudy[0];
-        // } else {
-        //     message = '';
-        // }
         var summary = response.data.currently.summary;
         if (summary === 'Light Rain') {
             summary = 'It is just a little rain, nothing serious'
@@ -113,9 +106,9 @@ var tweetWeather = () => {
 
         console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`);
 
-        // Twitter.post('statuses/update', {
-        //     status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
-        // }, (err, data, response) => {});
+        Twitter.post('statuses/update', {
+            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${message}`
+        }, (err, data, response) => {});
 
     }).catch((e) => {});
 }
