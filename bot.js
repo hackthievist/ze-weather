@@ -113,4 +113,4 @@ var tweetWeather = () => {
 }
 
 tweetWeather();
-setInterval(tweetWeather, 10000);
+setInterval(tweetWeather, 3600000);
