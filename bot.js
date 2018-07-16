@@ -1,14 +1,14 @@
 const twit = require('twit');
 const config = require('./config');
 const axios = require('axios');
-const fs = require('fs');
 const express = require('express');
+
 
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-//For avoidong Heroku $PORT error
+//For avoiding Heroku $PORT error
 app.get('/', function (request, response) {
     var result = 'App is running'
     response.send(result);
@@ -102,8 +102,6 @@ var tweetWeather = () => {
         } else if (summary === 'Humid and Partly Cloudy') {
             summary = "Get ready for a bit of rain";
         }
-
-        console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`);
 
         Twitter.post('statuses/update', {
             status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}`
