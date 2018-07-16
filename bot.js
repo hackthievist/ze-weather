@@ -2,7 +2,11 @@ const twit = require('twit');
 const config = require('./config');
 const axios = require('axios');
 const express = require('express');
+const https = require('https');
 
+setInterval(() => {
+    https.get('http://bibliotheque-mandarine-52484.herokuapp.com');
+}, 1800000) //every 30 minutes
 
 var app = express();
 
@@ -21,47 +25,11 @@ var Twitter = new twit(config);
 var rain = ["It's currently raining"];
 var cloudy = ["It's currently cloudy"];
 
-var states = [
-    "Abia",
-    "Adamawa",
-    "Anambra",
-    "Akwa Ibom",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Enugu",
-    "Edo",
-    "Ekiti",
-    "FCT - Abuja",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara"
+var states = ["Abia", "Adamawa", "Anambra", "Akwa Ibom", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River",
+    "Delta", "Ebonyi", "Enugu", "Edo", "Ekiti", "FCT - Abuja", "Gombe", "Imo", "Jigawa", "Kaduna",
+    "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo",
+    "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"
 ];
-
-
 
 var tweetWeather = () => {
     var rand = Math.floor(Math.random() * 36);
@@ -83,28 +51,56 @@ var tweetWeather = () => {
         var celsiusTemp = ((fahrTemp - 32) * (5 / 9)).toFixed(1);
 
         var summary = response.data.currently.summary;
-        if (summary === 'Light Rain') {
-            summary = 'It is just a little rain, nothing serious'
-        } else if (summary === 'Drizzle') {
-            summary = 'It is just a little drizzle fo shizzle my nizzle';
-        } else if (summary === 'Mostly Cloudy') {
-            summary = "It's a lot of clouds in the sky";
-        } else if (summary === 'Partly Cloudy') {
-            summary = "Cloudy with a chance of meatballs";
-        } else if (summary === 'Humid and Overcast') {
-            summary = "It is humid (lol, humid)";
-        } else if (summary === 'Clear') {
-            summary = 'Clear af';
-        } else if (summary === 'Overcast') {
-            summary = "It's quite dull";
-        } else if (summary === 'Humid and Mostly Cloudy') {
-            summary = "Get your umbrellas, it's about to get wet";
-        } else if (summary === 'Humid and Partly Cloudy') {
-            summary = "Get ready for a bit of rain";
+
+        var dataCheck = (arr) => {
+            var rand = Math.floor(Math.random() * arr.length);
+            return rand;
         }
 
+        if (summary === 'Light Rain') {
+            var summaryList = ["It is just a little rain, nothing serious", "It is just a bit of rain, something light",
+                'Raindrops, Droptop!'
+            ];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Drizzle') {
+            var summaryList = ['It is just a little drizzle my nizzle', 'Drip Drop, a little drizzle'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Mostly Cloudy') {
+            summaryList = ["It's a lot of clouds in the sky", 'Lots of clouds, it just might be the apocalypse'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Partly Cloudy') {
+            summaryList = ["Cloudy with a chance of meatballs", 'The clouds are coming'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Humid and Overcast') {
+            summaryList = ["It is humid (lol, humid)", "It is very humid for humans"];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Clear') {
+            summaryList = ['Clear af', 'It is clear as day', 'Clearrrrrrr!'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Overcast') {
+            summaryList = ["It's quite dull", 'The skies are gloomy'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Humid and Mostly Cloudy') {
+            summaryList = ["Get your umbrellas, it's about to get wet", 'The rain is coming', 'Hurry, find a shelter!'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        } else if (summary === 'Humid and Partly Cloudy') {
+            summaryList = ["Get ready for a bit of rain", 'Get an umbrella', 'The skies are heavy'];
+            var rand = dataCheck(summaryList);
+            summary = summaryList[rand];
+        }
+
+        console.log(`It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`);
+
         Twitter.post('statuses/update', {
-            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}`
+            status: `It is currently ${celsiusTemp}°C in ${nigerianState} State. ${summary}!`
         }, (err, data, response) => {});
 
     }).catch((e) => {});
