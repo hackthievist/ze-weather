@@ -5,7 +5,7 @@ const express = require('express');
 const https = require('https');
 
 setInterval(() => {
-    https.get('http://bibliotheque-mandarine-52484.herokuapp.com');
+    https.get('https://bibliotheque-mandarine-52484.herokuapp.com');
 }, 1800000) //every 30 minutes
 
 var app = express();
